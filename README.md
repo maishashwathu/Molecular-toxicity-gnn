@@ -25,7 +25,17 @@ These values come from the saved outputs in `gnn_tox21_molecular_toxicity.ipynb`
 
 The notebook uses an 80/20 random train/validation split. There is no separate test set or scaffold split, so these are validation results, not independent test performance.
 
+### Validation performance
+
 ![Per-assay validation ROC-AUC](per_task_auc.png)
+
+ROC-AUC varies across the 12 assays: NR-AR-LBD reaches 0.848, while NR-PPAR-gamma reaches 0.676. The mean validation ROC-AUC is 0.7705; it is not an accuracy percentage.
+
+### Training dynamics
+
+![Training and validation masked BCE loss](training_dynamics.png)
+
+The lowest recorded validation loss is 0.2032 at epoch 126. Training stops at epoch 146.
 
 ## Method
 
@@ -34,7 +44,34 @@ Molecules are loaded through PyTorch Geometric's MoleculeNet interface. Each gra
 The targets are NR-AR, NR-AR-LBD, NR-AhR, NR-Aromatase, NR-ER, NR-ER-LBD, NR-PPAR-gamma, SR-ARE, SR-ATAD5, SR-HSE, SR-MMP, and SR-p53.
 
 ![Molecule graph and atom features](molecule_graph.png)
-![Training dynamics](training_dynamics.png)
+The graph illustration shows atoms as nodes, bonds as edges, and the nine encoded atom features supplied to the model.
+
+## Visual analysis gallery
+
+<details>
+<summary>Expand: missing labels, learned embeddings, and molecule profiles</summary>
+
+### Missing assay labels
+
+![Percentage of missing labels for each Tox21 assay](nan_prevalence.png)
+
+Missing labels range from 7.2% to 25.8% across assays. The masked loss excludes these entries instead of assigning negative labels.
+
+### Learned molecular embeddings
+
+![Validation embeddings projected with t-SNE, colored by NR-AR labels and predicted scores](tsne_latent_space.png)
+
+A t-SNE projection of the 128-dimensional validation embeddings, colored by NR-AR labels (left) and predicted scores (right). This is an exploratory visualization, not a separate performance measure.
+
+### Example molecule profiles
+
+![Original predicted assay profiles for aspirin, caffeine, BPA, and ethanol](radar_comparison.png)
+
+The original notebook compares predicted assay scores for aspirin, caffeine, BPA, and ethanol. **This illustration inherits the inference feature mismatch described below; these scores should not be interpreted as validated toxicity estimates.**
+
+</details>
+
+All six figures are stored in the repository and can be opened at full resolution.
 
 ## Getting started
 

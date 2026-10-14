@@ -1,0 +1,13 @@
+# Suggested environment for Python 3.10/3.11; not a fully locked reproduction.
+# PyTorch 2.4.1 matches the version recorded by the main notebook.
+torch==2.4.1
+torch-geometric>=2.6,<2.7
+numpy>=1.26,<2
+rdkit>=2024.3,<2025
+matplotlib>=3.8,<3.10
+networkx>=3.2,<4
+# TSNE(max_iter=...) requires scikit-learn 1.5 or newer.
+scikit-learn>=1.5,<1.6
+ipython>=8,<9
+ipykernel>=6.29,<7
+jupyterlab>=4.2,<5
